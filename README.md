@@ -1,4 +1,4 @@
-![Cover](https://ador.chorompotro.com/energized_magisk_cover.svg)
+![Cover](https://nayemador.com/assets/covers/energized_magisk_cover.svg)
 
 <h1 align="center">Energized - Magisk ⚡</h1>
 
