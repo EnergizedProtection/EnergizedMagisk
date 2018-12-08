@@ -135,6 +135,9 @@ $POSTFSDATA && cp -af $INSTALLER/common/post-fs-data.sh $MODPATH/post-fs-data.sh
 # service mode scripts
 $LATESTARTSERVICE && cp -af $INSTALLER/common/service.sh $MODPATH/service.sh
 
+#ui file download and install
+ui_select
+
 ui_print "- Setting permissions"
 set_permissions
 
