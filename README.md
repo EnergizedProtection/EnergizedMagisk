@@ -4,10 +4,10 @@
 
 <div align="center">
   <!-- Version -->
-    <img src="https://img.shields.io/badge/Version-2.0-blue.svg?longCache=true&style=flat-square"
+    <img src="https://img.shields.io/badge/Version-2.5-blue.svg?longCache=true&style=flat-square"
       alt="Version" />
   <!-- Last Updated -->
-    <img src="https://img.shields.io/badge/Updated-Jun 18, 2018-orange.svg?longCache=true&style=flat-square"
+    <img src="https://img.shields.io/badge/Updated-Jun 20, 2018-orange.svg?longCache=true&style=flat-square"
       alt="_time_stamp_" />
   <!-- Status -->
     <img src="https://img.shields.io/badge/Status-beta-orange.svg?longCache=true&style=flat-square"
@@ -106,6 +106,16 @@
  - Just run hosts script and reinstall host file of choice without selecting whitelist/blacklist.
 
 ## Changelog
+
+v2.5
+ - Added Extension Support. 
+ - Improved Overall Script Quality. 
+ 
+v2.2
+ - Improved whitelisting. All three formats (`0.0.0.0`, `domain` & `regex`) can be whitelisted using `w` only. 
+ - Improved Energized Package Detection.
+ - Improved other adblocker detection.
+ - Improved hosts size detection.
 
 v2.0
  - Added Systemless Hosts Warning. If systemless hosts is disabled, script will exit!

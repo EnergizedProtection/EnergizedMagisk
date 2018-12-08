@@ -29,6 +29,8 @@ fi
 if [ -d /data/data/org.adaway/ ]; then
     echo "\n\033[33;5;7m[-] Other adblocker is detected!\033[0m"
     sleep 1
+    echo "\033[36;5;7m[+] Make sure to disable them, to avoid any issue using Energized!\033[0m"
+    sleep 1
 elif [ -d /data/data/ru.dixl0f0s.unifiedhostsmanager ]; then
     echo "\n\033[33;5;7m[-] Other adblocker is detected!\033[0m"
     sleep 1
@@ -54,6 +56,8 @@ FILTER=/sdcard/EnergizedProtection/filter
 WHITELIST=/sdcard/EnergizedProtection/whitelist
 BLACKLIST=/sdcard/EnergizedProtection/blacklist
 TEMP=/cache/energizedtemp
+PTEMP=/cache/energizedporntemp
+STEMP=/cache/energizedsocialtemp
 COUNT=1
 # Check if Root was granted or not
 id="$(id)"; id="${id#*=}"; id="${id%%\(*}"; id="${id%% *}"
@@ -65,10 +69,10 @@ fi;
 # Other Variables
 update="\e[1;36m`busybox date -r /sbin/.core/img/.core/hosts`\e[0m"
 busybox="\e[1;33m`busybox | head -1 | cut -f 2 -d ' '`\e[0m"
-size="\e[1;35m`ls -lah /system/etc/hosts | awk '{print $5}'`\e[0m"
+size="\e[1;35m`ls -lah /sbin/.core/img/.core/hosts | awk '{print $5}'`\e[0m"
 # Check if System's Adblocker is enabled or not
-   [ -f /system/etc/hosts ];
-if busybox grep -q adblocker /system/etc/hosts; then
+   [ -f /sbin/.core/img/.core/hosts ];
+if busybox grep -q adblocker /sbin/.core/img/.core/hosts; then
 	adblocker="\e[1;32mENABLED\e[0m"
 else
 	adblocker="\e[1;31mDISABLED\e[0m"
@@ -90,7 +94,7 @@ elif busybox grep -q "Energized Porn" /sbin/.core/img/.core/hosts; then
 	echeck="\e[1;32mPorn Protection\e[0m"
 elif busybox grep -q "Energized Blu" /sbin/.core/img/.core/hosts; then
 	echeck="\e[1;32mBlu Protection\e[0m"
-elif busybox grep -q "blu_go" /sbin/.core/img/.core/hosts; then
+elif busybox grep -q "Energized go" /sbin/.core/img/.core/hosts; then
 	echeck="\e[1;32mBlu go Protection\e[0m"
 elif busybox grep -q "EnergizedLite" /sbin/.core/img/.core/hosts; then
 	echeck="\e[1;32mLite Protection\e[0m"
@@ -105,6 +109,7 @@ else
 fi
 # Check if Hosts Update is available
 echo "\n[+] Checking Update..."
+echo "[+] NOTE: Data connection is required to download the hosts."
 wget -q -O $TREADME http://ador.chorompotro.com/Magisk.txt
 grep "Updated" $TREADME
 if [ -f $FILTER ]; then
@@ -134,7 +139,7 @@ do
 		fi
 # Starts Screen Echos
 echo -e -n "\n[+] Energized All-In-One Magisk Module
-[+] Version: 2.0
+[+] Version: 2.5
 [+] Author: Energized Protection
  
 [+] Checking Root & Busybox..
@@ -145,9 +150,7 @@ echo -e -n "\n[+] Energized All-In-One Magisk Module
 [+] ENERGIZED: $eonoff - $echeck
 [+] ADBLOCK STATUS: $adblocker
 [+] SIZE: $size
-[+] LAST UPDATED: $update
-
-[+] NOTE: Data connection is required to download the hosts."
+[+] LAST UPDATED: $update \n"
 		
         echo "\n\033[33;1m[+] Select an option below:\033[0m"
 		echo "---------------~-----------------"
@@ -161,17 +164,20 @@ echo -e -n "\n[+] Energized All-In-One Magisk Module
 		echo "[8] Energized Ultimate Protection"
 		echo "[9] Energized Unified Protection"
 		
+		echo "\n\033[33;1m[+] Extensions:\033[0m"
+		echo "---------------~-----------------"
+		echo "[p] Add Porn Blocking to current host."
+		echo "[s] Add Social Blocking to current host."
+		
 		echo "\n\033[33;1m[+] Other Options:\033[0m"
 		echo "---------------~-----------------"
 		echo "[i] Info About The Packs (Opens in Browser)"
 		echo "[c] Clear Hosts File"
 		echo "[b] Apply Blacklist"
-		echo "[w] Apply Whitelist (Ex. 0.0.0.0 domain.com)"
-		echo "[d] Apply Whitelist (Ex. domain.com)"
-		echo "[r] Apply Whitelist Buse regex - needed for wildcards)"
+		echo "[w] Apply Whitelist"
 		echo "[q] Quit."
 		echo "[-] To disable, just toggle the enable systemless hosts in magisk manager." 
-		echo -n "[+] Your Input (1-9, i, b, w, r, d & q) - "
+		echo -n "[+] Your Input (1-9, p, s, i, c, b, w & q) - "
 		read -r INPUT
 		if [ "$INPUT" != "m" ]; then
 			INPUT="$(echo "$INPUT" | sed 's/m//g')"
@@ -216,17 +222,24 @@ echo -e -n "\n[+] Energized All-In-One Magisk Module
 				if [ -f "$HOST" ]; then
 					echo "\n\033[32;5;7m[+] Whitelist Found!\033[0m"
 					echo "[+] Applying Whitelist"
-					sleep 2
+					sleep 1
 					grep -Fvxf $WHITELIST $HOST > $TEMP
 					mv $TEMP $HOST
+					sleep 1
+					grep -Fvf $WHITELIST $HOST > $TEMP
+					mv $TEMP $HOST
+					sleep 1
+					grep -vxf $WHITELIST $HOST > $TEMP
+					mv $TEMP $HOST
+					sleep 1
 					echo "\033[36;5;7m[-] Returning to the main screen.\033[0m\n"
-					sleep 3 
+					sleep 1
 				else
 					echo ""
 					echo "[-] No hosts file detected"
 					sleep 1
 					echo "[+] Apply a hosts file first"
-					sleep 2
+					sleep 1
 				fi
 		    fi
 		;;
@@ -330,6 +343,22 @@ EOF
         echo "[+] Done Clearing Hosts!"
         sleep 1
         ;;
+        p)  wget -O $PTEMP https://raw.githubusercontent.com/EnergizedProtection/EnergizedHosts/master/EnergizedPornLite/energized/hosts
+			echo "[+] Applying Porn Hosts to current hosts."
+            mv $HOST $TEMP
+			cat $TEMP $PTEMP > $HOST
+			awk '!a[$0]++' $HOST > $PTEMP && mv -f $PTEMP $HOST
+			rm -f $TEMP $PTEMP
+			echo "[+] Done applying!"
+		;;
+		s)  wget -O $STEMP https://raw.githubusercontent.com/Sinfonietta/hostfiles/master/social-hosts
+			echo "[+] Applying Social Hosts to current hosts."
+            mv $HOST $TEMP
+			cat $TEMP $STEMP > $HOST
+			awk '!a[$0]++' $HOST > $STEMP && mv -f $STEMP $HOST
+			rm -f $TEMP $STEMP
+			echo "[+] Done applying!"
+		;;
 		*)  echo ""
 			echo "Invalid input. Don't use any spaces between letters."
 		;;
