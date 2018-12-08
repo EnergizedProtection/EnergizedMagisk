@@ -111,16 +111,12 @@ energized_dir=$MODPATH/system/bin
 
 
 case $UI_local in
-  en-EN) wget --no-check-certificate -O $energized_dir/EN_energized $UI_url/en_EN_energized
-        rm -f $energized_dir/energized
-        mv $energized_dir/en_EN_energized $energized_dir/energized
-        chmod 0777 $energized_dir/en_EN_energized
- ;;
  fr-FR) wget --no-check-certificate -O $energized_dir/FR__energized $UI_url/fr_FR_energized
         rm -f $energized_dir/energized
         mv $energized_dir/fr_FR_energized $energized_dir/energized
         chmod 0777 $energized_dir/en_EN_energized
 ;;
+  *) echo "Your language has not yet been translated, English language is apply."
 esac
-echo "Translation file apply"
+echo "Translation task done"
 }
