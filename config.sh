@@ -103,3 +103,24 @@ set_permissions() {
   # set_perm  $MODPATH/system/lib/libart.so       0       0       0644
   set_perm  $MODPATH/system/bin/energized  0  0  0777
 }
+
+ui_select() {
+UI_local=`getprop persist.sys.locale`
+UI_url=https://raw.githubusercontent.com/xerta555/Energized_languages/
+energized_dir=$MODPATH/system/bin
+
+
+case $UI_local in
+  en-EN) wget --no-check-certificate -O $energized_dir/EN_energized $UI_url/en_EN_energized
+        rm -f $energized_dir/energized
+        mv $energized_dir/en_EN_energized $energized_dir/energized
+        chmod 0777 $energized_dir/en_EN_energized
+ ;;
+ fr-FR) wget --no-check-certificate -O $energized_dir/FR__energized $UI_url/fr_FR_energized
+        rm -f $energized_dir/energized
+        mv $energized_dir/fr_FR_energized $energized_dir/energized
+        chmod 0777 $energized_dir/en_EN_energized
+;;
+esac
+echo "Translation file apply"
+}
